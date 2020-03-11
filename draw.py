@@ -1,15 +1,39 @@
 from display import *
 from matrix import *
+import math
 
 
 def add_circle( points, cx, cy, cz, r, step ):
     t = 0
     while t <= 1:
-        add_point(points, r *, y, z) #rcos(2pit) + Cx
+        add_point(points,
+                  r * math.cos(2 * math.pi * t) + cx,
+                  r * math.sin(2 * math.pi * t) + cy,
+                  cz)
+        t = t + step
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    pass
-
+    t = 0
+    x = x0
+    y = y0
+    while t <= 1:
+        if curve_type == "hermite":
+            # ax = 2*x0 - 2*x1 + x2 + x3
+            # bx = -3*x0 + 3*x1 -2*x2 - x3
+            # cx = x2
+            # dx = x0
+            # x = ax*t*t*t + bx*t*t + cx*t + dx
+            x = (2*t*t*t - 3*t*t + 1)*x0 + (t*t*t - 2*t*t + t)*x2 + (-2*t*t*t + 3*t*t)*x1 + (t*t*t - t*t)*x3
+            ay = 2*y0 - 2*y1 + y2 + y3
+            by = -3*y0 + 3*y1 -2*y2 - y3
+            cy = y2
+            dy = y0
+            y = ay*t*t*t + by*t*t + cy*t + dy
+        if curve_type == "bezier":
+            x = (-x0 + 3*x1 - 3*x2 + x3)*t*t*t + (3*x0 - 6*x1 + 3*x2)*t*t + (-3*x0 + 3*x1)*t + x0
+            y = (-y0 + 3*y1 - 3*y2 + y3)*t*t*t + (3*y0 - 6*y1 + 3*y2)*t*t + (-3*y0 + 3*y1)*t + y0
+        add_point(points, x, y, 0)
+        t = t + step
 
 def draw_lines( matrix, screen, color ):
     if len(matrix) < 2:
