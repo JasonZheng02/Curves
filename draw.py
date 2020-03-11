@@ -18,17 +18,8 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
     y = y0
     while t <= 1:
         if curve_type == "hermite":
-            # ax = 2*x0 - 2*x1 + x2 + x3
-            # bx = -3*x0 + 3*x1 -2*x2 - x3
-            # cx = x2
-            # dx = x0
-            # x = ax*t*t*t + bx*t*t + cx*t + dx
             x = (2*t*t*t - 3*t*t + 1)*x0 + (t*t*t - 2*t*t + t)*x2 + (-2*t*t*t + 3*t*t)*x1 + (t*t*t - t*t)*x3
-            ay = 2*y0 - 2*y1 + y2 + y3
-            by = -3*y0 + 3*y1 -2*y2 - y3
-            cy = y2
-            dy = y0
-            y = ay*t*t*t + by*t*t + cy*t + dy
+            y = (2*t*t*t - 3*t*t + 1)*y0 + (t*t*t - 2*t*t + t)*y2 + (-2*t*t*t + 3*t*t)*y1 + (t*t*t - t*t)*y3
         if curve_type == "bezier":
             x = (-x0 + 3*x1 - 3*x2 + x3)*t*t*t + (3*x0 - 6*x1 + 3*x2)*t*t + (-3*x0 + 3*x1)*t + x0
             y = (-y0 + 3*y1 - 3*y2 + y3)*t*t*t + (3*y0 - 6*y1 + 3*y2)*t*t + (-3*y0 + 3*y1)*t + y0
